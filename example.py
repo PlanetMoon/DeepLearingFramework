@@ -15,7 +15,7 @@ from numpy import array, int8, uint8, zeros
 import random
 
 
-def load_mnist(dataset="training_data", digits=np.arange(10), path="/home/luna/ml/datasets/mnist/"):
+def load_mnist(dataset="training_data", digits=np.arange(10), path="~/ml/datasets/mnist/"):
     if dataset == "training_data":
         fname_image = os.path.join(path, 'train-images-idx3-ubyte')
         fname_label = os.path.join(path, 'train-labels-idx1-ubyte')
