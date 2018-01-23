@@ -2,9 +2,9 @@
 # python 3
 
 from Model import *
-from Layer import DenseLayer
-from Activation import Sigmoid
-from Optimization import SGD
+from Layer.DenseLayer import *
+from Activation.Sigmoid import *
+from Optimization.SGD import *
 from Cost.cost_function import cost_derivative
 
 import os
@@ -15,7 +15,7 @@ from numpy import array, int8, uint8, zeros
 import random
 
 
-def load_mnist(dataset="training_data", digits=np.arange(10), path="~/ml/datasets/mnist/"):
+def load_mnist(dataset="training_data", digits=np.arange(10), path="/home/luna/ml/datasets/mnist/"):
     if dataset == "training_data":
         fname_image = os.path.join(path, 'train-images-idx3-ubyte')
         fname_label = os.path.join(path, 'train-labels-idx1-ubyte')
@@ -99,7 +99,7 @@ if __name__ == '__main__':
         else:
             print("Epoch {0} complete".format(j))
 
-    # 准确率
+    # accuracy
     correct = 0
     for test_feature in test_set:
         if net.predict(test_feature[0]) == test_feature[1][0]:
