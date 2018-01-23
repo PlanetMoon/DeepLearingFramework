@@ -22,21 +22,6 @@ class Model(object):
             a = layer.feed_forward(i, a)
         return a
 
-    def back_prop(self, i, x, y):
-        nabla_b = dict()
-        nabla_w = dict()
-        a = self.feed_forward(i, x)
-        c = self.cost(a, y)
-        self.layers.reverse()
-        w_delta = 1 * c
-        for layer in self.layers:
-            (db, dw, wd) = layer.back_prop(i, w_delta)
-            nabla_b[layer.name] = db
-            nabla_w[layer.name] = dw
-            w_delta = wd
-        self.layers.reverse()
-        return nabla_b, nabla_w
-
     def train_on_batch(self, mini_batch):
         self.optimization.execution(self, mini_batch)
 
