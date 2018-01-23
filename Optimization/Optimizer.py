@@ -10,3 +10,27 @@ class Optimizer(object):
 
     def execution(self):
         pass
+
+    def g(self):
+        """
+        Compute the gradient
+        """
+        pass
+
+    def m(self):
+        """
+        Compute the first-order momentum
+        """
+        pass
+
+    def V(self):
+        """
+        Compute the Second-order momentum
+        """
+        pass
+
+    def eta(self):
+        """
+        Compute the current descent gradient
+        """
+        pass
