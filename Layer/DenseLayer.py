@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import numpy as np
+from Utils.utils import dot
 
 
 class DenseLayer(object):
@@ -18,12 +19,9 @@ class DenseLayer(object):
         self.xs = dict()
         self.zs = dict()
 
-    def dot(self, x, y):
-        return np.dot(x, y)
-
     def feed_forward(self, batch_i, x):
         self.xs[batch_i] = x
-        z = self.dot(self.weights, x) + self.bias
+        z = dot(self.weights, x) + self.bias
         self.zs[batch_i] = z
         return self.activation.act(z)
 
