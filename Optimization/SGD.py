@@ -1,5 +1,7 @@
 # coding: utf-8
+
 from Optimization.Optimizer import *
+from Utils.utils import dot
 
 
 class SGD(Optimizer):
@@ -28,9 +30,9 @@ class SGD(Optimizer):
     def g(self, i, layer, w_delta):
         db = w_delta * layer.activation.prime(layer.zs[i])
         self.nabla_b[layer.name] = self.nabla_b[layer.name] + db if layer.name in self.nabla_b else db
-        dw = layer.dot(db, layer.xs[i].transpose())
+        dw = dot(db, layer.xs[i].transpose())
         self.nabla_w[layer.name] = self.nabla_w[layer.name] + dw if layer.name in self.nabla_w else dw
-        return layer.dot(layer.weights.transpose(), db)
+        return dot(layer.weights.transpose(), db)
 
     def eta(self, alpha, g):
         return alpha * g
