@@ -6,16 +6,31 @@ class SGD(Optimizer):
     """
     Stochastic gradient descent
     """
+    nabla_b = dict()
+    nabla_w = dict()
+
     def execution(self, model, mini_batch):
-        nabla_b = dict()
-        nabla_w = dict()
         i = 0
         for x, y in mini_batch:
-            delta_nabla_b, delta_nabla_w = model.back_prop(i, x, y)
-            for (layer_name, db) in delta_nabla_b.items():
-                nabla_b[layer_name] = nabla_b[layer_name] + db if layer_name in nabla_b else db
-            for (layer_name, dw) in delta_nabla_w.items():
-                nabla_w[layer_name] = nabla_w[layer_name] + dw if layer_name in nabla_w else dw
+            a = model.feed_forward(i, x)
+            c = model.cost(a, y)
+            model.layers.reverse()
+            w_delta = 1 * c
+            for layer in model.layers:
+                w_delta = self.g(i, layer, w_delta)
+            model.layers.reverse()
             i += 1
         for layer in model.layers:
-            layer.update_args(- self.learning_rate * nabla_w[layer.name] / len(mini_batch), - self.learning_rate * nabla_b[layer.name] / len(mini_batch))
+            eta_w = self.eta(self.learning_rate, self.nabla_w[layer.name])
+            eta_b = self.eta(self.learning_rate, self.nabla_b[layer.name])
+            layer.update_args(- eta_w / len(mini_batch), - eta_b / len(mini_batch))
+
+    def g(self, i, layer, w_delta):
+        db = w_delta * layer.activation.prime(layer.zs[i])
+        self.nabla_b[layer.name] = self.nabla_b[layer.name] + db if layer.name in self.nabla_b else db
+        dw = layer.dot(db, layer.xs[i].transpose())
+        self.nabla_w[layer.name] = self.nabla_w[layer.name] + dw if layer.name in self.nabla_w else dw
+        return layer.dot(layer.weights.transpose(), db)
+
+    def eta(self, alpha, g):
+        return alpha * g
