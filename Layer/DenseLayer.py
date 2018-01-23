@@ -27,12 +27,6 @@ class DenseLayer(object):
         self.zs[batch_i] = z
         return self.activation.act(z)
 
-    def back_prop(self, batch_i, w_delta):
-        d = w_delta * self.activation.prime(self.zs[batch_i])
-        dw = self.dot(d, self.xs[batch_i].transpose())
-        wd = self.dot(self.weights.transpose(), d)
-        return d, dw, wd
-
     def update_args(self, dw, db):
         self.weights += dw
         self.bias += db
