@@ -10,9 +10,14 @@ class SGD(Optimizer):
     """
     nabla_b = dict()
     nabla_w = dict()
+    
+    def reset(self):
+        nabla_w = dict()
+        nabla_b = dict()
 
     def execution(self, model, mini_batch):
         i = 0
+        self.reset()
         for x, y in mini_batch:
             a = model.feed_forward(i, x)
             c = model.cost(a, y)
