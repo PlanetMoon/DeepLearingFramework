@@ -16,9 +16,10 @@ class Adam(Optimizer):
     m_b = dict()
     m_w = dict()
 
-    def __init__(self, learning_rate, beta2=0.999, epsilon=1e-6):
+    def __init__(self, learning_rate, beta1=0.9, beta2=0.999, epsilon=1e-6):
         Optimizer.__init__(self, learning_rate)
         self.epsilon = epsilon
+        self.beta1 = beta1
         self.beta2 = beta2
 
     def reset(self):
