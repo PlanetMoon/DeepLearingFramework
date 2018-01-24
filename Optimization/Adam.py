@@ -39,8 +39,10 @@ class Adam(Optimizer):
             i += 1
         self.m(len(mini_batch))
         for layer in model.layers:
-            self.v_b[layer.name] = self.V(self.v_b[layer.name], self.g_b[layer.name] / len(mini_batch))
-            self.v_w[layer.name] = self.V(self.v_w[layer.name], self.g_w[layer.name] / len(mini_batch))
+            v_b = self.v_b[layer.name] if layer.name in self.v_b else None
+            v_w = self.v_w[layer.name] if layer.name in self.v_b else None
+            self.v_b[layer.name] = self.V(v_b, self.g_b[layer.name] / len(mini_batch))
+            self.v_w[layer.name] = self.V(v_w, self.g_w[layer.name] / len(mini_batch))
             eta_w = self.eta(self.learning_rate, self.m_w[layer.name][-1], self.v_w[layer.name])
             eta_b = self.eta(self.learning_rate, self.m_b[layer.name][-1], self.v_b[layer.name])
             layer.update_args(- eta_w, - eta_b)
@@ -54,7 +56,10 @@ class Adam(Optimizer):
 
     def V(self, v, g_array):
         V_square = g_array[-1]**2
-        V = self.beta2 * v + (1 - self.beta2) * sqrt(V_square)
+        if v is not None:
+            V = self.beta2 * v + (1 - self.beta2) * V_square
+        else:
+            V = (1 - self.beta2) * V_square
         return V
 
     def m(self, len):

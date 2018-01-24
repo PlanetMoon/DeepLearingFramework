@@ -58,10 +58,9 @@ class AdaGrad(Optimizer):
         g_square_array = []
         for i in range(0, len(g_array)):
             g_square_array.append(g_array[i]**2)
-        V_square = g_square_array[0]
+        V = g_square_array[0]
         for i in range(1, len(g_square_array)):
-            V_square += g_square_array[i]
-        V = sqrt(V_square)
+            V += g_square_array[i]
         return V
 
     def eta(self, alpha, g, V):
