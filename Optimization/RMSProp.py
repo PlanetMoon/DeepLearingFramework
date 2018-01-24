@@ -5,7 +5,7 @@ from Optimization.Optimizer import *
 from Utils.utils import dot, sqrt
 
 
-class AdaDelta(Optimizer):
+class RMSProp(Optimizer):
     """
     Adaptive gradient descent with delta window
     """
