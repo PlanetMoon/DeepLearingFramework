@@ -5,7 +5,7 @@ from Optimization.Optimizer import *
 from Utils.utils import dot, sqrt
 
 
-class Adam(Optimizer):
+class Nadam(Optimizer):
     """
     Adaptive + Momentum + Nesterov
     """
@@ -54,7 +54,7 @@ class Adam(Optimizer):
             self.v_w[layer.name] = self.V(v_w, self.g_w[layer.name] / len(mini_batch))
             self.eta_w[layer.name] = self.eta(self.learning_rate, self.m_w[layer.name][-1], self.v_w[layer.name])
             self.eta_b[layer.name] = self.eta(self.learning_rate, self.m_b[layer.name][-1], self.v_b[layer.name])
-            layer.update_args(- eta_w, - eta_b)
+            layer.update_args(- self.eta_w[layer.name], - self.eta_b[layer.name])
 
     def g(self, i, layer, w_delta):
         db = w_delta * layer.activation.prime(layer.zs[i])
