@@ -6,4 +6,4 @@ Just trying to reinvent a wheel. We want to build a framework support deep learn
 * numpy
 
 # GPU support
-TBD
+Utils.py dot_GPU can only compute numpy.dot in GPU
