@@ -1,22 +1,21 @@
-# encoding: utf-8
+# coding: utf-8
 
 from Activation.Activation import *
 import numpy as np
 
 
-class Sigmoid(Activation):
+class ArcTan(Activation):
     """
-    Sigmoid: 1 / (1 + exp(-z))
+    The base class for activation function of neural cell
     """
     def act(self, z):
         a = np.empty_like(z)
         for i in range(len(z)):
-            a[i] = 1.0 / (1.0 + np.exp(-z[i]))
+            a[i] = np.arctan(z[i])
         return a
 
     def prime(self, z):
         p = np.empty_like(z)
-        a = self.act(z)
-        for i in range(len(a)):
-            p[i] = a[i] * (1 - a[i])
+        for i in range(len(z)):
+            p[i] = 1 / (1 + z[i]**2)
         return p
